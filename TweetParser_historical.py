@@ -1,8 +1,7 @@
 import tweepy
-import csv
+import pandas as pd
+
 import re
-import json
-from textblob import TextBlob
 
 #Authentication
 consumer_key="L0YdSokeGD14UGtfBKrexHMYl"
@@ -30,7 +29,7 @@ def dump_tweets(screen_name):
     oldest = alltweets[-1].id - 1
 
     # keep grabbing tweets until there are no tweets left to grab
-    while len(alltweets) < 200:
+    while len(new_tweets) > 0:
         print
         "getting tweets before %s" % (oldest)
 
@@ -48,14 +47,23 @@ def dump_tweets(screen_name):
 
     # transform the tweepy tweets into a 2D array that will populate the csv
     outtweets = [[tweet.id_str, tweet.created_at, tweet.text.encode("utf-8")] for tweet in alltweets]
+    output = pd.DataFrame(columns=["Tweet_id","Location", "Event_Name", "Pizza_Status", "Event_Date", "Sent_Date", "Text"])
+    for each_tweet in outtweets:
+        is_pizza = classify_is_pizza(each_tweet[2].decode())
+        event_date, loc = find_date_location(each_tweet)
+        output = output.append(pd.DataFrame([[each_tweet[0], loc, None, is_pizza, event_date, each_tweet[1], each_tweet[2].decode()]], columns=["Tweet_id", "Location", "Event_Name", "Pizza_Status", "Event_Date", "Sent_Date","Text"]))
 
-    # write the csv
+    writer = pd.ExcelWriter('output.xlsx')
+    output.to_excel(writer, "Twitter_data")
+    writer.save()
 
+def classify_is_pizza(tweet):
+    return "pizza" in tweet
 
-def classify_is_pizza():
-    return True
+def find_event_name():
+    pass
 
-def find_date_location():
+def find_date_location(tweet):
     return "1/27/2018", "35-2064"
 
 
