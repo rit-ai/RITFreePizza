@@ -43,6 +43,7 @@ class listener(StreamListener):
         print (status)
 
 
+
 #Authentication
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
