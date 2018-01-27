@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PIZZA TIME</title>    
+	<meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+
+    <style>
+    #map{
+    	height:600px;
+    	width: 73%;
+    }
+
+    html,body{
+    	height:100%;
+    	margin: 0;
+    	padding: 0;
+    }
+    </style>
+</head>
+<body>
+		<div id="map"></div>
+	<script>
+    var latLng_data = {Pizza1:[[43.084035, -77.676062]], Pizza2:[[43.083866, -77.675183]], Pizza3:[[43.083029, -77.677037]]};
+    var names = ["Pizza1", "Pizza2", "Pizza3"]
+	var map;
+		function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat:43.084116, lng:-77.675861},
+          zoom: 16
+        });
+
+        for (var i=0; i<names.length; i++){
+        	console.log(names[i]);
+        	console.log(latLng_data[names[i]][0]);
+        	coords = latLng_data[names[i]][0];
+        	curr_lat = coords[0];
+        	curr_lng = coords[1];
+        	var curr_LatLng = new google.maps.LatLng(curr_lat, curr_lng);
+
+			// var pizza_icon = 'https://maps.google.com/mapfiles/kml/shapes/' + "{{ url_for('static', filename='images/pizza_icon.png') }}"
+
+            var image = {
+                // url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                // url: pizza_icon,
+                
+                url:"https://cdn.pixabay.com/photo/2014/09/24/00/36/pizza-458400_960_720.png",
+                // This marker is 20 pixels wide by 32 pixels high.
+                scaledSize: new google.maps.Size(30, 42),
+                // The origin for this image is (0, 0).
+                origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at (0, 32).
+                anchor: new google.maps.Point(0, 32),
+
+                labelOrigin: new google.maps.Point(15,-5)
+            };
+
+
+            var marker = new google.maps.Marker({
+            		position: curr_LatLng,
+            		map: map,
+            		draggable: false,
+            		icon: image,
+            		// icon: pizza_icon,
+            		title: "PIZZA",
+            		label: names[i]
+            });
+
+
+
+        }
+
+
+
+
+        }//END INIT MAP
+	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3oPQtwYyfMXgdMxQ-3eETiPyrICvk62w&callback=initMap"
+    async defer></script>
+</body>
+</html>
