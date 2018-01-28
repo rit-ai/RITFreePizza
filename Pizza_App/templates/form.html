@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+
+
+
+
+body{
+	background: #F36E21;
+	margin:0;
+	padding:0;
+	font-family:'Arial';
+    background-image: url({{ url_for('static', filename='images/saunders_grey_blur.png') }});
+    opacity: 0.97;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    text-align: center;
+}
+
+#icon_image{
+  background-image: url({{ url_for('static', filename='images/tiger_icon.png') }});
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: 150px;
+  text-align: center;
+  height: 165px;
+}
+
+.wrap{
+	width:350px;
+	height:500px;
+	overflow: hidden;
+	margin: auto;
+	margin-top: 100px;
+	background: #fff;
+	border: 1px solid black;
+	border-radius:20px;
+
+
+}
+
+.wrap div{
+	text-align: center;
+}
+
+.wrap input{
+	width: 300px;
+	height: 35px;
+	margin-bottom: 10px;
+	border-radius: 20px;
+	border: 1px solid black;
+	padding: 5px;
+}
+
+#container {
+	text-align: center;
+}
+
+#fields{
+	margin-top: 100px;
+
+}
+
+#header {
+	text-align: center;
+}
+
+.form-control{
+	opacity: .5;
+}
+
+.form-control:hover{
+	opacity: 1;
+	font-weight: bold;
+}
+
+</style>
+
+<head>
+	<title>Survey Login</title>
+</head>
+
+<body>
+
+
+
+
+<div class="wrap" id="container">
+	<div id="fields">
+
+	<div id="message">
+	<h2>Submit Pizza Info</h2>
+	</div>
+
+	<div class="container" id="Submit Pizza Info">
+
+		<form action="" class="form-inline" method="post">
+
+			<input type="text" class="form-control" placeholder="Location" name="username">
+			<input type="password" class="form-control" placeholder="Date Time" name="password">
+			<input class="btn btn-default" type="submit" value="Input">
+
+			<div id="icon_image"></div>
+
+		</form>
+
+	</div>
+	</div>
+
+</div>
+
+
+
+</body>
+</html>

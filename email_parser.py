@@ -13,7 +13,7 @@ writer = csv.writer(open("clean_mail_B.csv", "wb"))
 #second = csv.writer(open("nonemtf.csv", "wb"))
 count = 0
 
-output = pd.DataFrame(columns=["Email_id", "data_source", "Location", "Event_Name", "Pizza_Status", "Event_Date", "Sent_Date", "Text"])
+output = pd.DataFrame(columns=["Email_id", "data_source", "Building_num", "Room_num", "Pizza_Status", "Event_Date", "Sent_Date", "Text"])
 
 for message in mailbox.mbox('pizza!.mbox'):
     if message.is_multipart():
@@ -25,7 +25,7 @@ for message in mailbox.mbox('pizza!.mbox'):
     if(content is None):
         continue
 
-    output = output.append(pd.DataFrame([[uuid.uuid4(), "email", None, None, None, None, message['date'], prepros(content)]], columns=["Tweet_id", "data_source", "Location", "Event_Name", "Pizza_Status", "Event_Date", "Sent_Date","Text"]))
+    output = output.append(pd.DataFrame([[uuid.uuid4(), "email", None, None, None, None, message['date'], prepros(content)]], columns=["Tweet_id", "data_source", "Building_num", "Room_num", "Pizza_Status", "Event_Date", "Sent_Date","Text"]))
 
 
 
