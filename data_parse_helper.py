@@ -6,12 +6,25 @@ import pandas as pd
 import re
 import operator
 
-##CREATE DICTIONARY FOR NICKNAMES FOR COLLEGES
-
-
 ##Testing this library for reverse name lookups
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
+
+nickname_lookup= {"George Eastman Hall": ["EAS", "Eastman"],
+"George H. Clark Gymnasium": ["CLK", "Clark Gym","Gym"],
+"Student Alumni Union": ["SAU", "Campus Center", "Student Center", "Davis Room", "Fireside Lounge"],
+"Wallace Library": ["WAL", "Wallace Center", "Library"],
+"Liberal Arts Hall": ["LBR", "COLA"],
+"James E. Booth Hall": ["BOO", "Booth"],
+"James E. Gleason Hall": ["GLE", "KGCOE", "Gleason"],
+"Golisano Hall": ["GOL", "Golisano", "GCCIS"],
+"Frank E. Gannett Hall": ["GAN", "Gannett"],
+"Thomas Gosnell Hall": ["GOS", "Gosnell", "Gosnell Atrium", "College of Science Atrium"],
+"Lewis P. Ross Hall": ["ROS", "Ross"],
+"Max Lowenthal Hall": ["LOW", "Saunders", "College of Business", "COB", "Lowenthal"],
+"Simone Center for Innovation and Entrepreneurship": ["SIH", "Simone Center", "Fish Bowl", "Toilet Bowl", "Innovation Hall", "Entrepreneurship Hall"]}
+
+
 
 def make_lookup_table():
     df = pd.read_csv("RIT_Buildings_Rooms2.csv", header=None,
@@ -85,34 +98,49 @@ def get_info(texts, skip=-2, attr=LOWER, merge=False, nlp=None,
 
     return pizza_loc, dates, time, buildings
 
+def building_room_pair_search(df, building_room_pair):
+    ##TODO this is only going to get one room...very dirty :(
+    building = building_room_pair[0][0]
+    room = building_room_pair[0][2]
+    ##Going to lookup using nickname lookup
+    
+    
+
+
 def get_datelocation(text):
     pizza_loc, dates, time, phrases = get_info(text)
     df = make_lookup_table()
-    b, r, lookup_shortend_text = run_room_lookup(df, phrases)
 
-    ##Adds up results from b and r (building and room)
-    sums=[]
-    for i in range(len(b)):
-        sums.append(r[i][1] + b[i][1])
+    #Try regex search to see if there is a simple building room pair
+    building_room_pair = re.findall(re.compile("([A-Z]{3})(\-|\s)(\w\d{3}|\d{4})"),text)
 
-    index, _ = max(enumerate(sums), key=operator.itemgetter(1))
-
-    if r[index][1] > b[index][1]:
-        print("we choose room", r[index][0])
-        temp_name = r[index][0]
-        full_loc_name = df[df["room"] == '2050 - Reading Room']
+    if len(building_room_pair) != 0:
+        #Do something to get which building/room combo it is, or at least the building...
     else:
-        print("we choose building", b[index][0])
-        temp_name = b[index][0]
-        full_loc_name = df[df["room"] == '2050 - Reading Room']
-        
-    building_name, room_name = full_loc_name.values[0]
+        b, r, lookup_shortend_text = run_room_lookup(df, phrases)
+        ##Adds up results from b and r (building and room)
+        sums=[]
+        for i in range(len(b)):
+            sums.append(r[i][1] + b[i][1])
 
-    ##This is the naive way of getting closest date...take most verbose
-    ##and leave the rest...
-    dates_as_text = [d[0] for d in dates]
-    date_to_return = max(dates_as_text, key=len)
-    parsed_date = dateparser.parse(date_to_return)
+        index, _ = max(enumerate(sums), key=operator.itemgetter(1))
+
+        if r[index][1] > b[index][1]:
+            print("we choose room", r[index][0])
+            temp_name = r[index][0]
+            full_loc_name = df[df["room"] == '2050 - Reading Room']
+        else:
+            print("we choose building", b[index][0])
+            temp_name = b[index][0]
+            full_loc_name = df[df["room"] == '2050 - Reading Room']
+            
+        building_name, room_name = full_loc_name.values[0]
+
+        ##This is the naive way of getting closest date...take most verbose
+        ##and leave the rest...
+        dates_as_text = [d[0] for d in dates]
+        date_to_return = max(dates_as_text, key=len)
+        parsed_date = dateparser.parse(date_to_return)
 
     return parsed_date, (building_name, room_name)
 
@@ -132,6 +160,8 @@ in text by a naive/simple method of just idx distance.
 
 Leave it for now. 
 '''
+
+
 ##for date in dates:
 ##    date_text = date[0]
 ##    distance = min(abs(date[1]-pizza_loc[0]),
