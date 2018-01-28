@@ -112,6 +112,27 @@ def building_room_pair_search(df, building_room_pair):
         if v[0] == building:
             return k
 
+##Secret Sauce?
+def dirty_boye_building_search(df, text):
+    for k, nicknames in nickname_lookup.items():
+        for nickname in nicknames:
+            if nickname.lower() in text.lower() and len(nickname)>3:
+                building_name = k
+                return building_name
+    return None
+def dirty_boye_room_search(df, text, building_name):
+    rooms = df[df.building == building_name]
+    rooms = rooms.room
+    rooms = rooms.values.tolist()
+
+    for r in rooms:
+        if r in text:
+            room = r
+            return room
+    return "None"
+            
+        
+
 """
 for lack of a better solution,
 we will employ this time_finder method that
@@ -164,45 +185,55 @@ def get_datelocation(text, nlp=None):
             if building_room_pair[0][2] in r:
                 room_name = building_room_pair[0][2]
     else:
-        b, r, lookup_shortend_text = run_room_lookup(df, phrases)
-        ##Adds up results from b and r (building and room)
-        sums=[]
-        for i in range(len(b)):
-            sums.append(r[i][1] + b[i][1])
-
-        try:
-            index, _ = max(enumerate(sums), key=operator.itemgetter(1))
-        except:
-            return "None", "None", "None", "None"
-        ##TODO why are the '2050 - reading room' things hard coded in?
+        ##Should we skip the second half of this code
+        skip = False
         
-        ##Where you choose a room
-        if r[index][1] > b[index][1]:
-            temp_name = r[index][0]
-            if temp_name not in nickname_lookup.keys():
-                try:
-                    temp_name = lookup_shortend_text[temp_name]
-                except:
-                    pass
-            #print("room temp", temp_name)
-            full_loc_name = df[df["room"] == temp_name]
-        else:
-            ##Where you choose a building
-            temp_name = b[index][0]
+        #Change variable name - its a regex search
+        building_name = dirty_boye_building_search(df, text)
+        #Room search off found building name
+        if building_name != None:
+            room_name = dirty_boye_room_search(df, text, building_name)
+            skip = True
+        if skip == False:
+            b, r, lookup_shortend_text = run_room_lookup(df, phrases)
+            ##Adds up results from b and r (building and room)
+            sums=[]
+            for i in range(len(b)):
+                sums.append(r[i][1] + b[i][1])
 
-            if temp_name not in nickname_lookup.keys():
-                try:
-                    temp_name = lookup_shortend_text[temp_name]
-                except:
-                    pass
-            #print("building temp", temp_name)
-            full_loc_name = df[df["building"] == temp_name]
+            try:
+                index, _ = max(enumerate(sums), key=operator.itemgetter(1))
+            except:
+                return "None", "None", "None", "None"
+            ##TODO why are the '2050 - reading room' things hard coded in?
+            
+            ##Where you choose a room
+            if r[index][1] > b[index][1]:
+                temp_name = r[index][0]
+                if temp_name not in nickname_lookup.keys():
+                    try:
+                        temp_name = lookup_shortend_text[temp_name]
+                    except:
+                        pass
+                #print("room temp", temp_name)
+                full_loc_name = df[df["room"] == temp_name]
+            else:
+                ##Where you choose a building
+                temp_name = b[index][0]
 
-        #print("full loc name", full_loc_name)
-        try:
-            building_name, room_name = full_loc_name.values[0]
-        except:
-            return "None", "None", "None", "None"
+                if temp_name not in nickname_lookup.keys():
+                    try:
+                        temp_name = lookup_shortend_text[temp_name]
+                    except:
+                        pass
+                #print("building temp", temp_name)
+                full_loc_name = df[df["building"] == temp_name]
+
+            #print("full loc name", full_loc_name)
+            try:
+                building_name, room_name = full_loc_name.values[0]
+            except:
+                return "None", "None", "None", "None"
     ##This is the naive way of getting closest date...take most verbose
     ##and leave the rest...
     dates_as_text = [d[0] for d in dates]
