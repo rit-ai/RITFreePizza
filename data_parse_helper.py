@@ -94,6 +94,7 @@ def get_info(texts, skip=-2, attr=LOWER, merge=False, nlp=None,
                 pizza_loc.append(token.idx)        
         for ent in doc.ents:
             if ent.label_ == "DATE":
+                print(ent.text)
                 dates.append([ent.text, ent.start_char, ent.end_char])
 #                print("Entity @", ent.start_char, ent.end_char, ent.label_, ent.text)
             if ent.label =="TIME":
@@ -175,6 +176,15 @@ in text by a naive/simple method of just idx distance.
 Leave it for now. 
 '''
 
+text3 = """
+The Simone Center for Innovation and Entrepreneurship invites you to join us tomorrow, Friday, January 19th from 12PM-1PM for Scott A. Snyder, PH.D.’s talk on Technology and Entrepreneurship in LOW-1225. All students, faculty and alumni are welcome.\n
+
+Dr. Snyder is currently the Senior Vice President, Managing Director and Chief Technology and Innovation officer for Safeguard Scientifics, Inc. He has vast experience in the growth of technology related businesses with a particular focus on IoT, AI and enhanced security. He is also an accomplished author and a Senior Fellow at the Warton School as well as adjunct faculty at the Moore School of Engineering at the University of Pennsylvania.
+
+Pizza will be provided. Please email Stephen Burke at srbvpr@rit.edu in the Simone Center for Innovation and Entrepreneurship with any questions.
+
+In addition, requests for interpreters can be submitted to myaccess.rit.edu. Interpreters can be provided upon request and are subject to availability.    
+"""
 
 ##for date in dates:
 ##    date_text = date[0]
