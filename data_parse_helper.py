@@ -94,10 +94,11 @@ def get_info(texts, skip=-2, attr=LOWER, merge=False, nlp=None,
                 pizza_loc.append(token.idx)        
         for ent in doc.ents:
             if ent.label_ == "DATE":
-                print(ent.text)
+                #print(ent.text)
                 dates.append([ent.text, ent.start_char, ent.end_char])
 #                print("Entity @", ent.start_char, ent.end_char, ent.label_, ent.text)
             if ent.label =="TIME":
+                #print("time entity", ent.text)
                 time.append([ent.text, ent.start_char, ent.end_char])
 
     return pizza_loc, dates, time, buildings
@@ -110,8 +111,41 @@ def building_room_pair_search(df, building_room_pair):
     for k, v in nickname_lookup.items():
         if v[0] == building:
             return k
-    
 
+"""
+for lack of a better solution,
+we will employ this time_finder method that
+will be extremely gross and hard to understand
+to parse times correctly. Sorry.
+"""
+def time_finder(text):
+    time_pattern = re.compile("(\d{1,2})(\:\d{2})?\s?(AM|PM|am|pm)?(\-)?")
+
+    '''
+    TODO
+
+    In some cases dates come in as 11-12pm...
+    in this case, I will need to ditch the "-", and take the
+    number before. Trouble comes in looking at the time after
+    the dash to see if the time before the dash should be am vs. pm.
+
+    In the case above, you couldnt just take the pm from 12 and use
+    it on 11, it would make it 11pm. I am just rambling,
+    I hope this makes sense
+    '''
+    #get all matches to our sketchy time pattern
+    matches = re.findall(time_pattern, text)
+    #print("MATCHES", matches)
+    for m in matches:
+        #Look, its 5am, give me a break here.
+        if "PM" in m or "AM" in m or "pm" in m or "am" in m:
+            temp_time = ""
+            for _ in m:
+                if _ not in ["-"]:
+                    temp_time += _
+            return temp_time
+    return "Unsure of time"
+            
 
 def get_datelocation(text):
     pizza_loc, dates, time, phrases = get_info(text)
@@ -129,8 +163,6 @@ def get_datelocation(text):
         for r in all_rooms:
             if building_room_pair[0][2] in r:
                 room_name = building_room_pair[0][2]
-                print("WE FOUND DAT ROOM NUMBER", room_name)
-        print("WE FOUND DAT NAME BOIIII", building_name)
     else:
         b, r, lookup_shortend_text = run_room_lookup(df, phrases)
         ##Adds up results from b and r (building and room)
@@ -140,12 +172,14 @@ def get_datelocation(text):
 
         index, _ = max(enumerate(sums), key=operator.itemgetter(1))
 
+        ##TODO why are the '2050 - reading room' things hard coded in?
+        
+        ##Where you choose a room
         if r[index][1] > b[index][1]:
-            print("we choose room", r[index][0])
             temp_name = r[index][0]
             full_loc_name = df[df["room"] == '2050 - Reading Room']
         else:
-            print("we choose building", b[index][0])
+            ##Where you choose a building
             temp_name = b[index][0]
             full_loc_name = df[df["room"] == '2050 - Reading Room']
             
@@ -154,10 +188,25 @@ def get_datelocation(text):
     ##This is the naive way of getting closest date...take most verbose
     ##and leave the rest...
     dates_as_text = [d[0] for d in dates]
+
     date_to_return = max(dates_as_text, key=len)
+
+    if "tomorrow," in date_to_return:
+        date_to_return = date_to_return.split("tomorrow,")[1].strip()
     parsed_date = dateparser.parse(date_to_return)
 
-    return parsed_date, (building_name, room_name)
+    try:
+        time_to_return = time[0]
+        if "-" in time_to_return:
+            time_split = time_to_return.split()
+            ##Only taking the first time split by "-", its the start time
+            time_to_return = dateparser.parse(time_split[0])
+        else:
+            time_to_return = dateparser.parse(time_to_return)
+    except:
+        ##When all else fails, return the list? Change to something else
+        time_to_return = time_finder(text)
+    return parsed_date, (building_name, room_name), time_to_return
 
 text = open("pizza_test.txt").read()
 
