@@ -1,25 +1,24 @@
-﻿Building,Name,Room Type,Seats,Equipment,Last System Test,Lat,Long
-Max Lowenthal Hall,1105,Tier II Lab,0,3,Mon 03:52 PM [05/08/2017],43.082874,77.677129
-Max Lowenthal Hall,1110,COB Conference,0,0,,43.082874,77.677129
-Max Lowenthal Hall,1115,Tier II Lab,0,0,Mon 10:08 AM [09/25/2017],43.082874,77.677129
-Max Lowenthal Hall,1135,General Purpose Classroom,45,24,Mon 05:36 PM [11/06/2017],43.082874,77.677129
-Max Lowenthal Hall,12 Closet,Closet,0,0,,43.082874,77.677129
-Max Lowenthal Hall,1205,Lab,45,0,,43.082874,77.677129
-Max Lowenthal Hall,1215,General Purpose Classroom,58,14,Mon 04:20 PM [10/23/2017],43.082874,77.677129
-Max Lowenthal Hall,1225,Lab,18,2,,43.082874,77.677129
-Max Lowenthal Hall,1235,Other,18,1,,43.082874,77.677129
-Max Lowenthal Hall,1245,Tier II Lab,45,1,Fri 11:17 AM [12/02/2016],43.082874,77.677129
-Max Lowenthal Hall,2309,Lab,40,0,,43.082874,77.677129
-Max Lowenthal Hall,2312,Tier II Conference Room,,1,,43.082874,77.677129
-Max Lowenthal Hall,3105,General Purpose Classroom,58,13,Tue 08:31 AM [10/03/2017],43.082874,77.677129
-Max Lowenthal Hall,3115,General Purpose Classroom,0,10,Fri 04:23 PM [09/29/2017],43.082874,77.677129
-Max Lowenthal Hall,3125,General Purpose Classroom,51,13,Tue 08:06 AM [10/03/2017],43.082874,77.677129
-Max Lowenthal Hall,3135,Tier II Lab,34,3,Mon 09:53 AM [10/02/2017],43.082874,77.677129
-Max Lowenthal Hall,3215,General Purpose Classroom,110,7,Tue 09:13 PM [10/03/2017],43.082874,77.677129
-Max Lowenthal Hall,3225,General Purpose Classroom,51,14,Tue 09:12 PM [01/16/2018],43.082874,77.677129
-Max Lowenthal Hall,3235,General Purpose Classroom,,13,Wed 08:23 AM [10/04/2017],43.082874,77.677129
-Max Lowenthal Hall,3245,General Purpose Classroom,54,13,Thu 09:44 PM [10/05/2017],43.082874,77.677129
-Max Lowenthal Hall,A300,Office,0,0,,43.082874,77.677129
+﻿Max Lowenthal Hall,1105,Tier II Lab,0,3,Mon 03:52 PM [05/08/2017],43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,1110,COB Conference,0,0,,43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,1115,Tier II Lab,0,0,Mon 10:08 AM [09/25/2017],43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,1135,General Purpose Classroom,45,24,Mon 05:36 PM [11/06/2017],43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,12 Closet,Closet,0,0,,43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,1205,Lab,45,0,,43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,1215,General Purpose Classroom,58,14,Mon 04:20 PM [10/23/2017],43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,1225,Lab,18,2,,43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,1235,Other,18,1,,43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,1245,Tier II Lab,45,1,Fri 11:17 AM [12/02/2016],43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,2309,Lab,40,0,,43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,2312,Tier II Conference Room,,1,,43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,3105,General Purpose Classroom,58,13,Tue 08:31 AM [10/03/2017],43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,3115,General Purpose Classroom,0,10,Fri 04:23 PM [09/29/2017],43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,3125,General Purpose Classroom,51,13,Tue 08:06 AM [10/03/2017],43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,3135,Tier II Lab,34,3,Mon 09:53 AM [10/02/2017],43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,3215,General Purpose Classroom,110,7,Tue 09:13 PM [10/03/2017],43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,3225,General Purpose Classroom,51,14,Tue 09:12 PM [01/16/2018],43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,3235,General Purpose Classroom,,13,Wed 08:23 AM [10/04/2017],43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,3245,General Purpose Classroom,54,13,Thu 09:44 PM [10/05/2017],43°08'28.7''N,77°67'71.3''W
+Max Lowenthal Hall,A300,Office,0,0,,43°08'28.7''N,77°67'71.3''W
 Lewis P. Ross Hall,1120,Off-line Room,10,0,,"43°04'56.2""N ","77°40'40.5""W"
 Lewis P. Ross Hall,1124,Off-line Room,20,0,,"43°04'56.2""N ","77°40'40.5""W"
 Lewis P. Ross Hall,A203,Other,20,0,,"43°04'56.2""N ","77°40'40.5""W"
