@@ -27,13 +27,13 @@ nickname_lookup= {"George Eastman Hall": ["EAS", "Eastman"],
 
 
 def make_lookup_table():
-    df = pd.read_csv("RIT_Buildings_Rooms2.csv", header=None,
+    df = pd.read_csv("RIT_Buildings_Rooms4.csv", header=None,
                      names=["building", "room",
                             "c","d","e","f","g","h"],
                      usecols=["building", "room"],
                      error_bad_lines=False,
-                     encoding='latin',
-                     sep="\t")
+                     encoding='latin'
+                     )
     return df
 
 ##Takes our lookup table df and list of noun phrases to run distance measure on
@@ -48,7 +48,9 @@ def run_room_lookup(df, phrases):
 
     lookup_shortened_text = dict()
     for i, r in enumerate(rooms):
-        if re.search("[a-zA-Z]{3,}", r):
+        if type(r) == float:
+            continue
+        if re.search(re.compile("[a-zA-Z]{3,}"), r):
             no_nums = re.sub(re.compile("[0-9\-]"), "", r)
             rooms[i] = no_nums.strip()
             lookup_shortened_text[no_nums.strip()] = r
@@ -70,6 +72,7 @@ def get_info(texts, skip=-2, attr=LOWER, merge=False, nlp=None,
         print("loading spacy model")
         #Load english tokenizer, tagger, parser, NER and word vectors
         nlp = spacy.load('en_core_web_lg')
+
     #texts = texts.split('\n')
     texts = [texts]
 
@@ -103,7 +106,9 @@ def building_room_pair_search(df, building_room_pair):
     building = building_room_pair[0][0]
     room = building_room_pair[0][2]
     ##Going to lookup using nickname lookup
-    
+    for k, v in nickname_lookup.items():
+        if v[0] == building:
+            return k
     
 
 
@@ -113,9 +118,18 @@ def get_datelocation(text):
 
     #Try regex search to see if there is a simple building room pair
     building_room_pair = re.findall(re.compile("([A-Z]{3})(\-|\s)(\w\d{3}|\d{4})"),text)
-
+    
     if len(building_room_pair) != 0:
         #Do something to get which building/room combo it is, or at least the building...
+        building_name = building_room_pair_search(df, building_room_pair)
+        room_search = df[df.building == building_name]
+        all_rooms = room_search.values.tolist()
+
+        for r in all_rooms:
+            if building_room_pair[0][2] in r:
+                room_name = building_room_pair[0][2]
+                print("WE FOUND DAT ROOM NUMBER", room_name)
+        print("WE FOUND DAT NAME BOIIII", building_name)
     else:
         b, r, lookup_shortend_text = run_room_lookup(df, phrases)
         ##Adds up results from b and r (building and room)
@@ -136,17 +150,17 @@ def get_datelocation(text):
             
         building_name, room_name = full_loc_name.values[0]
 
-        ##This is the naive way of getting closest date...take most verbose
-        ##and leave the rest...
-        dates_as_text = [d[0] for d in dates]
-        date_to_return = max(dates_as_text, key=len)
-        parsed_date = dateparser.parse(date_to_return)
+    ##This is the naive way of getting closest date...take most verbose
+    ##and leave the rest...
+    dates_as_text = [d[0] for d in dates]
+    date_to_return = max(dates_as_text, key=len)
+    parsed_date = dateparser.parse(date_to_return)
 
     return parsed_date, (building_name, room_name)
 
 text = open("pizza_test.txt").read()
 
-text = """CS1 Exam Review
+text2 = """CS1 Exam Review
 Sunday, November 12th, 11-1pm in GOL-1400
 
 Come review for the second CS1 exam. Pizza will be provided.
