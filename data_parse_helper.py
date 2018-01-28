@@ -22,7 +22,7 @@ nickname_lookup= {"George Eastman Hall": ["EAS", "Eastman"],
 "Thomas Gosnell Hall": ["GOS", "Gosnell", "Gosnell Atrium", "College of Science Atrium"],
 "Lewis P. Ross Hall": ["ROS", "Ross"],
 "Max Lowenthal Hall": ["LOW", "Saunders", "College of Business", "COB", "Lowenthal"],
-"Simone Center for Innovation and Entrepreneurship": ["SIH", "Simone Center", "Fish Bowl", "Toilet Bowl", "Innovation Hall", "Entrepreneurship Hall"]}
+"Simone Center for Innovation and Entrepreneurship": ["SIH", "Simone Center", "Fish Bowl", "Toilet Bowl", "Innovation Hall", "Entrepreneurship Hall", "Student Innovation Hall"]}
 
 
 
@@ -147,8 +147,8 @@ def time_finder(text):
     return "Unsure of time"
             
 
-def get_datelocation(text):
-    pizza_loc, dates, time, phrases = get_info(text)
+def get_datelocation(text, nlp=None):
+    pizza_loc, dates, time, phrases = get_info(text, nlp=nlp)
     df = make_lookup_table()
 
     #Try regex search to see if there is a simple building room pair
@@ -170,25 +170,45 @@ def get_datelocation(text):
         for i in range(len(b)):
             sums.append(r[i][1] + b[i][1])
 
-        index, _ = max(enumerate(sums), key=operator.itemgetter(1))
-
+        try:
+            index, _ = max(enumerate(sums), key=operator.itemgetter(1))
+        except:
+            return "None", "None", "None", "None"
         ##TODO why are the '2050 - reading room' things hard coded in?
         
         ##Where you choose a room
         if r[index][1] > b[index][1]:
             temp_name = r[index][0]
-            full_loc_name = df[df["room"] == '2050 - Reading Room']
+            if temp_name not in nickname_lookup.keys():
+                try:
+                    temp_name = lookup_shortend_text[temp_name]
+                except:
+                    pass
+            #print("room temp", temp_name)
+            full_loc_name = df[df["room"] == temp_name]
         else:
             ##Where you choose a building
             temp_name = b[index][0]
-            full_loc_name = df[df["room"] == '2050 - Reading Room']
-            
-        building_name, room_name = full_loc_name.values[0]
 
+            if temp_name not in nickname_lookup.keys():
+                try:
+                    temp_name = lookup_shortend_text[temp_name]
+                except:
+                    pass
+            #print("building temp", temp_name)
+            full_loc_name = df[df["building"] == temp_name]
+
+        #print("full loc name", full_loc_name)
+        try:
+            building_name, room_name = full_loc_name.values[0]
+        except:
+            return "None", "None", "None", "None"
     ##This is the naive way of getting closest date...take most verbose
     ##and leave the rest...
     dates_as_text = [d[0] for d in dates]
 
+    if len(dates_as_text) == 0:
+        return "None", "None", "None", "None"
     date_to_return = max(dates_as_text, key=len)
 
     if "tomorrow," in date_to_return:
@@ -206,8 +226,13 @@ def get_datelocation(text):
     except:
         ##When all else fails, return the list? Change to something else
         time_to_return = time_finder(text)
-    return parsed_date, (building_name, room_name), time_to_return
-
+    try:
+        return parsed_date, building_name, room_name, time_to_return
+    except:
+        try:
+            return parsed_date, building_name, "None", time_to_return
+        except:
+            return "None", "None", "None", "None"
 text = open("pizza_test.txt").read()
 
 text2 = """CS1 Exam Review
