@@ -77,6 +77,11 @@ body{
 	font-weight: bold;
 }
 
+.unstyled::-webkit-inner-spin-button{
+    display: none;
+    -webkit-appearance: none;
+}
+
 </style>
 
 <head>
@@ -101,9 +106,9 @@ body{
 
 			<input type="text" class="form-control" placeholder="Event Name" name="event">
 			<input type="text" class="form-control" placeholder="Location" name="location">
-			<input type="date" class="form-control" placeholder="Date Time" name="date">
-			<input type="time" class="form-control" placeholder="Time" name="usr_time">
-			<input class="btn btn-default" type="submit" value="Input">
+			<input type="date" class="form-control unstyled" placeholder="Date Time" name="date">
+			<input type="text" class="form-control" placeholder="Start Time" name="start_time">
+			<input class="btn btn-default" type="submit" value="Submit Event">
 
 			<div id="icon_image"></div>
 

@@ -52,13 +52,13 @@ def dump_tweets(screen_name):
 
     # transform the tweepy tweets into a 2D array that will populate the csv
     outtweets = [[tweet.id_str, tweet.created_at, tweet.text.encode("utf-8")] for tweet in alltweets]
-    output = pd.DataFrame(columns=["Tweet_id","data_source","Building_name", "Room_name", "Pizza_Status", "Event_Date", "Sent_Date", "Text"])
+    output = pd.DataFrame(columns=["Tweet_id","data_source","Building_name", "Room_name", "Pizza_Status", "Event_Date", "Event_Time", "Sent_Date", "Text"])
     for each_tweet in outtweets:
         is_pizza = classify_is_pizza(each_tweet[2].decode())
         #event_date, loc = find_date_location(each_tweet)
-        event_date, building_name, room_name, time = find_datelocation(each_tweet)
+        event_date, building_name, room_name, event_time = find_datelocation(each_tweet)
 #        output = output.append(pd.DataFrame([[each_tweet[0], "tweet", loc[0], loc[1], is_pizza, event_date, each_tweet[1], each_tweet[2].decode()]], columns=["Tweet_id", "data_source","Building_num", "Room_num", "Pizza_Status", "Event_Date", "Sent_Date","Text"]))
-        output = output.append(pd.DataFrame([[each_tweet[0], "tweet", building_name, room_name, is_pizza, event_date, each_tweet[1], each_tweet[2].decode()]], columns=["Tweet_id", "data_source","Building_num", "Room_num", "Pizza_Status", "Event_Date", "Sent_Date","Text"]))
+        output = output.append(pd.DataFrame([[each_tweet[0], "tweet", building_name, room_name, is_pizza, event_date, event_time,each_tweet[1], each_tweet[2].decode()]], columns=["Tweet_id", "data_source","Building_num", "Room_num", "Pizza_Status", "Event_Date","Event_Time", "Sent_Date","Text"]))
 
     writer = pd.ExcelWriter('output.xlsx')
     output.to_excel(writer, "Twitter_data")

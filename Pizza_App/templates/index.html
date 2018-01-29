@@ -8,31 +8,175 @@
     <style>
     #map{
     	height:600px;
-    	width: 73%;
+    	width: 70%;
+        float:left;
+        margin: 0% 5%;
+        border-radius: 20px;
+        margin-bottom: 15px;
+
     }
 
-    html,body{
-    	height:100%;
+    #info{
+        font-size: 25px;
+        text-align: center;
+        background: #E6E5DD;
+        border-radius:20px;
+        float:right;
+        width:15%;
+        height:600px;
+        margin-right: 5%;
+        margin-bottom: 15px;
+
+    }
+
+    #banner{
+        width:90%;
+        height:20%;
+        text-align:center;
+        margin: 2% 5%;
+
+
+    }
+    #instructions{
+        text-align:center;
+        font-size:30px;
+        word-wrap: break-word;
+    }
+
+    #welcome_title{
+        font-size: 40px;
+        text-align: center;
+        background: #E6E5DD;
+        width:100%;
+        margin: 0 auto;
+        padding:10px;
+        border-radius: 20px;
+
+    }
+
+    #info_text{
+        text-align:center;
+        font-size: 25px;
+        margin-top: 30%;
+        margin-bottom:15%;
+    }
+
+    #subtitle{
+        font-size: 30px;
+    }
+    /*slice_1.png*/
+
+    input{
+        width:200px;
+        height: 50px;
+        padding: 20px;
+        margin: 0 auto;
+    }
+
+    #banner_pizza{
+    background-image: url({{url_for('static', filename='images/slice_1.png')}});
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    text-align: center;
+    }
+
+    html{
+        width:100%;
     	margin: 0;
     	padding: 0;
+        font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    }
+    body{
+        width:100%;
+        margin: 0;
+        padding: 0;
+        background-size:cover;
+        background-image: url({{ url_for('static', filename='images/background.jpg') }});
+        background-repeat: no-repeat;
+
+
     }
     </style>
 </head>
 <body>
-		<div id="map"></div>
-	<script>
-    var latLng_data = {Pizza1:[[43.084035, -77.676062]], Pizza2:[[43.083866, -77.675183]], Pizza3:[[43.083029, -77.677037]]};
+    <div id="banner">
+
+
+    <div id="welcome_title">RIT FREE PIZZA APP
+
+    <div id="subtitle">Aggregating free pizza since 1826</div>
+
+    </div>
+
+
+    </div>
+	
+
+
+    <div id="map"></div>
+
+	<div id="info"><div id="info_text">If you know an event that is offering pizza, please click the button below...
+    </div>
+
+    <form id="myform" method="post">
+        <input class="btn btn-default" type="submit" value="Go To Form">
+    </form>
+
+
+    </div>
+    <script>
+    var latLng_data = {Pizza1:[[43.082874, -77.677129]], Pizza2:[[43.0843569, -77.6821797]], Pizza3:[[43.083541, -77.677354]]};
+    var building_name = ["Max Lowenthal Hall", "Golisano Hall", "Thomas Gosnell Hall"];
+
+
     var names = ["Pizza1", "Pizza2", "Pizza3"]
 	var map;
 		function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat:43.084116, lng:-77.675861},
-          zoom: 16
+          zoom: 16,
+          disableDefaultUI: true,
+          gestrueHandling: 'greedy'
         });
 
-        for (var i=0; i<names.length; i++){
-        	console.log(names[i]);
-        	console.log(latLng_data[names[i]][0]);
+
+        var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">Max Lowenthal Hall</h1>'+
+            '<div id="bodyContent">'+
+            '<br>'+
+            "1/29 @ 12:00pm there will be pizza in the multi-purpose room<br><br>" +
+            "2/6 @ 2:00pm there will be pizza in room 1215" 
+            '</div>'+
+            '</div>';
+        var contentString2 = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">Golisano Hall</h1>'+
+            '<div id="bodyContent">'+
+            '<br>'+
+            "2/4 @ 2:00pm there will be pizza in Auditorium 1400" + 
+            '</div>'+
+            '</div>';
+        var contentString3 = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">Thomas Gosnell Hall</h1>'+
+            '<div id="bodyContent">'+
+            '<br>'+
+            "2/6 @ 5:00pm there will be pizza in Lab 2345" + 
+            '</div>'+
+            '</div>';
+        var content = [contentString, contentString2, contentString3];
+
+        // var infowindow = new google.maps.InfoWindow();
+
+
+        var marker;
+        var i;
+        for (i=0; i<names.length; i++){
         	coords = latLng_data[names[i]][0];
         	curr_lat = coords[0];
         	curr_lng = coords[1];
@@ -44,7 +188,8 @@
                 // url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
                 // url: pizza_icon,
                 
-                url:"https://cdn.pixabay.com/photo/2014/09/24/00/36/pizza-458400_960_720.png",
+                // url:"https://cdn.pixabay.com/photo/2014/09/24/00/36/pizza-458400_960_720.png",
+                url:"https://cdn0.iconfinder.com/data/icons/junk-food-emoji-set/100/Pizza_4-256.png",
                 // This marker is 20 pixels wide by 32 pixels high.
                 scaledSize: new google.maps.Size(30, 42),
                 // The origin for this image is (0, 0).
@@ -54,23 +199,51 @@
 
                 labelOrigin: new google.maps.Point(15,-5)
             };
+        console.log(i);
+        console.log("log for content i  " + content[i]);
 
 
-            var marker = new google.maps.Marker({
-            		position: curr_LatLng,
-            		map: map,
-            		draggable: false,
-            		icon: image,
-            		// icon: pizza_icon,
-            		title: "PIZZA",
-            		label: names[i]
-            });
+        var infowindow = new google.maps.InfoWindow({
+          content: content[i],
+          maxWidth: 300
+        });
+
+        marker = new google.maps.Marker({
+        		position: curr_LatLng,
+        		map: map,
+        		draggable: false,
+        		icon: image,
+        		// icon: pizza_icon,
+        		title: "",
+        		label: ""
+        });
+
+
+        google.maps.event.addListener(marker, 'click', (function(marker,i){
+            return function(){
+                infowindow.setContent(content[i]);
+                infowindow.open(map,marker);
+            }
+        })(marker,i));
+
+
+        // (function(marker, i) {
+        // // add click event
+        //     marker.addListener('click', function() {
+        //       infowindow.open(map, marker);
+        //     });
+        // })(marker, i);
 
 
 
-        }
 
-        }//END INIT MAP
+        }//End for
+
+
+
+
+
+    }//END INIT MAP
 	</script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3oPQtwYyfMXgdMxQ-3eETiPyrICvk62w&callback=initMap"
     async defer></script>
