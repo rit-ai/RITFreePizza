@@ -2,7 +2,7 @@
 Aggregating free pizza data since 1826.
 
 Contributors:<br>
-======
+------
 Dylan Bowlald<br>
 Nate Raw<br>
 Italo Sayan<br>
