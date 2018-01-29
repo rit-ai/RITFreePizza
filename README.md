@@ -2,9 +2,10 @@
 Aggregating free pizza data since 1826.
 
 Contributors:<br>
-Dylan Bowlald,<br>
-Nate Raw,<br>
-Italo Sayan,<br>
+Dylan Bowlald<br>
+Nate Raw<br>
+Italo Sayan<br>
+Jonathan Ennin
 
 
 An app built to scrape emails and Twitter to find where free Pizza is on RIT's campus.
