@@ -5,7 +5,7 @@ Contributors<br>
 ------
 Dylan Bowald<br>
 Nate Raw<br>
-Italo Sayan<br> ixs3409@rit.edu
+Italo Sayan<br>  ixs3409@rit.edu
 Jonathan Ennin
 
 Description<br>
