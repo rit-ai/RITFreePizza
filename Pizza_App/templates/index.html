@@ -126,7 +126,10 @@
 
     </div>
     <script>
-    var latLng_data = {Pizza1:[[43.082874, -77.677129]], Pizza2:[[43.0843569, -77.6821797]], Pizza3:[[43.083541, -77.677354]]};
+
+    //Read in marker point data from flask app
+    var latLng_data = JSON.parse('{{ data_in | tojson | safe}}');
+
     var building_name = ["Max Lowenthal Hall", "Golisano Hall", "Thomas Gosnell Hall"];
 
 
@@ -225,15 +228,6 @@
                 infowindow.open(map,marker);
             }
         })(marker,i));
-
-
-        // (function(marker, i) {
-        // // add click event
-        //     marker.addListener('click', function() {
-        //       infowindow.open(map, marker);
-        //     });
-        // })(marker, i);
-
 
 
 
