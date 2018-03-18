@@ -65,7 +65,18 @@ def main():
         message_id_list = []
         for d in message_id_dict:
             message_id_list.append(d['id'])
-        print(message_id_list)
+        for message_id in message_id_list:
+            message = service.users().messages().get(userId='me', id=message_id).execute()
+            if 'parts' in message['payload']:
+                if message['payload']['parts'][0]['mimeType'] == 'multipart/alternative':
+                    message_raw = message['payload']['parts'][0]['parts'][0]['body']['data']
+                else:
+                    message_raw = message['payload']['parts'][0]['body']['data']
+            else:
+                message_raw = message['payload']['body']['data']
+            msg_str = base64.urlsafe_b64decode(message_raw.encode('ASCII'))
+            print(msg_str)
+            break
 
         #message = service.users().messages().get(
         #    userId='me', id=message_id).execute()
