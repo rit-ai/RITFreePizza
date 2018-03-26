@@ -4,7 +4,7 @@ Aggregating free pizza data since 1826.
 Contributors<br>
 ------
 Dylan Bowald<br>
-Nate Raw<br>
+Nate Raw nxr9266@rit.edu<br>
 Italo Sayan ixs3409@rit.edu<br>
 Jonathan Ennin
 
