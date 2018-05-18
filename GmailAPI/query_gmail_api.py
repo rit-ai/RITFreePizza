@@ -79,18 +79,6 @@ def main():
             print(msg_str)
             break
 
-        #message = service.users().messages().get(
-        #    userId='me', id=message_id).execute()
-
-        #for part in message['payload']['parts']:
-        #    if part['filename'] == 'MFT_Status.xls':
-        #        att_id = part['body']['attachmentId']
-        #        att = service.users().messages().attachments().get(
-        #            userId='me', messageId=message_id, id=att_id).execute()
-        #        data = att['data']
-        #        file_data = base64.urlsafe_b64decode(data.encode('UTF-8'))
-        #        return file_data
-
     except errors.HttpError:
         print('An error occurred: {}'.format(errors.HttpError))
 
