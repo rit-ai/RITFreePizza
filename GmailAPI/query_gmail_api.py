@@ -1,14 +1,15 @@
 from __future__ import print_function
 import httplib2
 import os
-
+import argparse
+import base64
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 from apiclient import errors
+
 try:
-    import argparse
     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
 except ImportError:
     flags = None
@@ -74,7 +75,7 @@ def main():
                     message_raw = message['payload']['parts'][0]['body']['data']
             else:
                 message_raw = message['payload']['body']['data']
-            msg_str = base64.urlsafe_b64decode(message_raw.encode('ASCII'))
+            msg_str = base64.urlsafe_b64decode(message_raw.encode('UTF-8'))
             print(msg_str)
             break
 
