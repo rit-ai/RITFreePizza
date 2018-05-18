@@ -1,4 +1,3 @@
-from __future__ import print_function
 import httplib2
 import os
 import argparse
@@ -51,9 +50,7 @@ def get_credentials():
 
 def main():
     """Shows basic usage of the Gmail API.
-
-    Creates a Gmail API service object and outputs a list of label names
-    of the user's Gmail account.
+    Creates a Gmail API service object and outputs a list emails.
     """
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
