@@ -2,6 +2,9 @@ import httplib2
 import os
 import argparse
 import base64
+import pandas as pd
+import re
+from bs4 import BeautifulSoup
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
@@ -52,10 +55,16 @@ def main():
     """Shows basic usage of the Gmail API.
     Creates a Gmail API service object and outputs a list emails.
     """
+    pattern= re.compile(' +')
+    batch = BatchHttpRequest()
+    for msg_id in message_ids:
+        batch.add(service.users().messages().get(userId='me', id=msg_id['id']), callback=mycallbackfunc)
+    batch.execute()
+
     credentials = get_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('gmail', 'v1', http=http)
-
+    email_csv = pd.DataFrame(columns=['body'])
     try:
         response = service.users().messages().list(
             userId='me').execute()
@@ -73,8 +82,12 @@ def main():
             else:
                 message_raw = message['payload']['body']['data']
             msg_str = base64.urlsafe_b64decode(message_raw.encode('UTF-8'))
-            print(msg_str)
-            break
+            soup = BeautifulSoup(msg_str.decode("utf-8"), "lxml")
+            [s.extract() for s in soup('style')]
+            text = soup.get_text()
+            text = re.sub(pattern, ' ', text).replace('\n', ' ').replace('\r', '')
+            email_csv = email_csv.append({'body': text}, ignore_index=True)
+        email_csv.to_csv('list_of_emails.csv')
 
     except errors.HttpError:
         print('An error occurred: {}'.format(errors.HttpError))
