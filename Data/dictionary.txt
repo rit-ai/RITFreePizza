@@ -1,0 +1,18 @@
+"Sustainability Institute": ["sus"],
+"Max Lowenthal Hall": ["Saunders", "LOW"],
+
+--------------------------------------------------
+
+"George Eastman Hall": ["EAS", "Eastman"],
+"George H. Clark Gymnasium": ["CLK", "Clark Gym","Gym"],
+"Student Alumni Union": ["SAU", "Campus Center", "Student Center", "Davis Room", "Fireside Lounge"],
+"Wallace Library": ["WAL", "Wallace Center", "Library"],
+"Liberal Arts Hall": ["LBR", "COLA"],
+"James E. Booth Hall": ["BOO", "Booth"],
+"James E. Gleason Hall": ["GLE", "KGCOE", "Gleason"],
+"Golisano Hall": ["GOL", "Golisano", "GCCIS"],
+"Frank E. Gannett Hall": ["GAN", "Gannett"],
+"Thomas Gosnell Hall": ["GOS", "Gosnell", "Gosnell Atrium", "College of Science Atrium"],
+"Lewis P. Ross Hall": ["ROS", "Ross"],
+"Max Lowenthal Hall": ["LOW", "Saunders", "College of Business", "COB", "Lowenthal"],
+"Simone Center for Innovation and Entrepreneurship": ["SIH", "Simone Center", "Fish Bowl", "Toilet Bowl", "Innovation Hall", "Entrepreneurship Hall"]

@@ -26,9 +26,6 @@ def pizza_submit():
     if request.method =="POST":
         return redirect(url_for("homepage"))
     try:
-
-
-        # return "It worked!"
         return render_template("form.html")
     except Exception as e:
         return print("BRO THIS IS THE ERROR!~!", str(e))
